@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <style>
+      html,
+      body {
+        background-color: transparent;
+        margin: 0;
+      }
+    </style>
+    <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const bridgeMethod = (method, data) => {
+        if (window.webkit) {
+          window.webkit.messageHandlers[method].postMessage(data);
+        } else if (window.messageHandlers) {
+          window.messageHandlers[method](JSON.stringify(data));
+        } else {
+          console.log(method, data);
+        }
+      };
+
+      const bridgeOnLoaded = (data) => bridgeMethod("onLoaded", data);
+      const bridgeOnSuccess = (data) => bridgeMethod("onSuccess", data);
+      const bridgeOnFail = (data) => bridgeMethod("onFail", data);
+
+      const verify = (appId) => {
+        const txCaptcha = new TencentCaptcha(
+          appId,
+          (res) => {
+            if (res.ret === 0) {
+              bridgeOnSuccess(res);
+            } else {
+              bridgeOnFail(res);
+            }
+          },
+          {
+            ready: (data) => {
+              bridgeOnLoaded(data);
+            },
+          }
+        );
+        txCaptcha.show();
+      };
+
+      window._verify = verify;
+    </script>
+  </body>
+</html>

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -5,6 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tencent_captcha/flutter_tencent_captcha.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  TencentCaptcha.init('2043551098');
+
   runApp(MyApp());
 }
 
@@ -14,7 +20,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  String _sdkVersion = 'Unknown';
+  List<String> _logs = [];
 
   @override
   void initState() {
@@ -24,12 +31,12 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    String sdkVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await FlutterTencentCaptcha.platformVersion;
+      sdkVersion = await TencentCaptcha.sdkVersion;
     } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      sdkVersion = 'Failed to get platform version.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -38,8 +45,38 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _sdkVersion = sdkVersion;
     });
+  }
+
+  void _handleClickVerify() async {
+    TencentCaptchaConfig config = TencentCaptchaConfig(
+      bizState: 'tencent-captcha',
+      enableDarkMode: true,
+      sdkOpts: {
+        'width': 140,
+        'height': 140,
+      },
+    );
+    await TencentCaptcha.verify(
+      config: config,
+      onLoaded: (dynamic data) {
+        _addLog('onLoaded', data);
+      },
+      onSuccess: (dynamic data) {
+        _addLog('onSuccess', data);
+      },
+      onFail: (dynamic data) {
+        _addLog('onFail', data);
+      },
+    );
+  }
+
+  void _addLog(String method, dynamic data) {
+    _logs.add('>>>$method');
+    if (data != null) _logs.add(json.encode(data));
+    _logs.add(' ');
+    setState(() {});
   }
 
   @override
@@ -49,8 +86,43 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: Column(
+                  children: <Widget>[
+                    Text('SDKVersion: $_sdkVersion'),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                      child: Text('验证'),
+                      onPressed: () => _handleClickVerify(),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      for (var log in _logs)
+                        Text(
+                          log,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

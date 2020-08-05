@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await FlutterTencentCaptcha.platformVersion, '42');
+    expect(await TencentCaptcha.sdkVersion, '42');
   });
 }
