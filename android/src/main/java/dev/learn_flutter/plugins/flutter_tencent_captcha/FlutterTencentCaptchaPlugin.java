@@ -146,15 +146,10 @@ public class FlutterTencentCaptchaPlugin implements FlutterPlugin, MethodCallHan
     }
 
     private void handleMethodVerify(@NonNull MethodCall call, @NonNull final Result result) {
-        TencentCaptchaConfig config = new TencentCaptchaConfig();
-        config.setAppId(this.appId);
+        String configJsonString = "{}";
 
-        if (call.hasArgument("bizState"))
-            config.setBizState(call.argument("bizState"));
-        if (call.hasArgument("enableDarkMode"))
-            config.setEnableDarkMode((boolean) call.argument("enableDarkMode"));
-        if (call.hasArgument("sdkOpts"))
-            config.setSdkOpts((HashMap<String, Object>) call.argument("sdkOpts"));
+        if (call.hasArgument("config"))
+            configJsonString = call.argument("config");
 
         TencentCaptchaSender.getInstance().listene(new TencentCaptchaListener() {
             @Override
@@ -187,7 +182,7 @@ public class FlutterTencentCaptchaPlugin implements FlutterPlugin, MethodCallHan
 
         Intent intent = new Intent(activity, TencentCaptchaActivity.class);
         intent.putExtra("captchaHtmlPath", this.captchaHtmlPath);
-        intent.putExtra("config", config);
+        intent.putExtra("configJsonString", configJsonString);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
 

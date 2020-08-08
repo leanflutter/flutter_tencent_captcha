@@ -68,7 +68,7 @@ class TencentCaptchaJsInterface {
 }
 
 public class TencentCaptchaActivity extends Activity implements DialogInterface.OnDismissListener {
-    private TencentCaptchaConfig config;
+    private String configJsonString;
 
     private WebView webView;
     private WebSettings webSettings;
@@ -78,7 +78,7 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            String jsCode = String.format("window._verify(\"%s\");", config.appId);
+            String jsCode = String.format("window._verify('%s');", configJsonString);
             webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String value) {
@@ -122,8 +122,8 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
         this.webView.requestFocus();
 
         Intent intent = getIntent();
-        if (intent.hasExtra("config")) {
-            this.config = (TencentCaptchaConfig) intent.getSerializableExtra("config");
+        if (intent.hasExtra("configJsonString")) {
+            this.configJsonString = intent.getStringExtra("configJsonString");
         }
         if (intent.hasExtra("captchaHtmlPath")) {
             String captchaHtmlPath = intent.getStringExtra("captchaHtmlPath");

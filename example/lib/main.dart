@@ -9,6 +9,7 @@ import 'package:flutter_tencent_captcha/flutter_tencent_captcha.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 请勿将此 appId 用于非测试场景
   TencentCaptcha.init('2043551098');
 
   runApp(MyApp());
@@ -53,10 +54,6 @@ class _MyAppState extends State<MyApp> {
     TencentCaptchaConfig config = TencentCaptchaConfig(
       bizState: 'tencent-captcha',
       enableDarkMode: true,
-      sdkOpts: {
-        'width': 140,
-        'height': 140,
-      },
     );
     await TencentCaptcha.verify(
       config: config,

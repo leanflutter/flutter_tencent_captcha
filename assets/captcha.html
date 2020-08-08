@@ -7,10 +7,14 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <style>
+      * {
+        -webkit-user-select: none;
+      }
       html,
       body {
         background-color: transparent;
         margin: 0;
+        padding: 0;
       }
     </style>
     <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
@@ -31,7 +35,15 @@
       const bridgeOnSuccess = (data) => bridgeMethod("onSuccess", data);
       const bridgeOnFail = (data) => bridgeMethod("onFail", data);
 
-      const verify = (appId) => {
+      const verify = (configJsonString) => {
+        let config = JSON.parse(configJsonString);
+        config = Object.assign(config, {
+          ready: (data) => {
+            bridgeOnLoaded(data);
+          },
+        });
+        let appId = config.appId;
+        delete config.appId;
         const txCaptcha = new TencentCaptcha(
           appId,
           (res) => {
@@ -41,11 +53,7 @@
               bridgeOnFail(res);
             }
           },
-          {
-            ready: (data) => {
-              bridgeOnLoaded(data);
-            },
-          }
+          config
         );
         txCaptcha.show();
       };

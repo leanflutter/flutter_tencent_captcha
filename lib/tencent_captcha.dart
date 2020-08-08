@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 
 import 'tencent_captcha_config.dart';
@@ -13,6 +15,7 @@ class TencentCaptcha {
 
   static bool _eventChannelReadied = false;
 
+  static String sdkAppId;
   static Function(dynamic) _verifyOnLoaded;
   static Function(dynamic) _verifyOnSuccess;
   static Function(dynamic) _verifyOnFail;
@@ -29,9 +32,9 @@ class TencentCaptcha {
       _eventChannelReadied = true;
     }
 
-    return await _methodChannel.invokeMethod('init', {
-      'appId': appId,
-    });
+    sdkAppId = appId;
+
+    return true;
   }
 
   static Future<bool> verify({
@@ -44,7 +47,17 @@ class TencentCaptcha {
     _verifyOnSuccess = onSuccess;
     _verifyOnFail = onFail;
 
-    return await _methodChannel.invokeMethod('verify', config?.toJson());
+    if (config == null) {
+      config = new TencentCaptchaConfig();
+    }
+
+    if (config?.appId == null) {
+      config.appId = sdkAppId;
+    }
+
+    return await _methodChannel.invokeMethod('verify', {
+      'config': json.encode(config?.toJson()),
+    });
   }
 
   static _handleVerifyOnEvent(dynamic event) {
