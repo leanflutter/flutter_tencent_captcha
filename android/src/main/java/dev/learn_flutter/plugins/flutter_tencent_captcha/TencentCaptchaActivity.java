@@ -5,14 +5,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
@@ -73,11 +73,6 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
     private WebView webView;
     private WebSettings webSettings;
     private WebViewClient webViewClient = new WebViewClient() {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void onPageFinished(WebView view, String url) {
@@ -87,27 +82,34 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
             webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
                 @Override
                 public void onReceiveValue(String value) {
-
                 }
             });
         }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
+            }
+            return false;
+        }
     };
 
-    @SuppressLint({"ResourceAsColor", "SetJavaScriptEnabled"})
+    @SuppressLint({"ResourceAsColor", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+            window.setStatusBarColor(Color.parseColor("#99000000"));
+        }
 
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         this.webView = new WebView(this);
-//        this.addContentView(this.webView, layoutParams);
-        this.setContentView(this.webView);
 
         this.webView.setBackgroundColor(android.R.color.transparent);
         this.webView.setWebViewClient(this.webViewClient);
@@ -115,6 +117,8 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
 
         this.webSettings = this.webView.getSettings();
         this.webSettings.setJavaScriptEnabled(true);
+        this.webSettings.setAllowFileAccessFromFileURLs(true);
+        this.webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         this.webView.requestFocus();
 
         Intent intent = getIntent();
@@ -125,6 +129,8 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
             String captchaHtmlPath = intent.getStringExtra("captchaHtmlPath");
             this.webView.loadUrl("file:///android_asset/" + captchaHtmlPath);
         }
+
+        this.setContentView(this.webView);
     }
 
     @Override
