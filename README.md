@@ -1,6 +1,6 @@
 # flutter_tencent_captcha
 
-适用于 Flutter 的阿里云滑动验证插件
+适用于 Flutter 的腾讯云验证码插件
 
 [![pub version][pub-image]][pub-url]
 
