@@ -37,7 +37,7 @@
 
 ```yaml
 dependencies:
-  flutter_tencent_captcha: ^0.0.1
+  flutter_tencent_captcha: ^0.0.2
 ```
 
 您可以从命令行安装软件包：
@@ -88,7 +88,7 @@ await TencentCaptcha.verify(
 ```
 MIT License
 
-Copyright (c) 2020 LiJianying <lijy91@foxmail.com>
+Copyright (c) 2021 LiJianying <lijy91@foxmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
