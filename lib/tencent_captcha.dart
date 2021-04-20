@@ -15,10 +15,10 @@ class TencentCaptcha {
 
   static bool _eventChannelReadied = false;
 
-  static String sdkAppId;
-  static Function(dynamic) _verifyOnLoaded;
-  static Function(dynamic) _verifyOnSuccess;
-  static Function(dynamic) _verifyOnFail;
+  static String? sdkAppId;
+  static Function(dynamic)? _verifyOnLoaded;
+  static Function(dynamic)? _verifyOnSuccess;
+  static Function(dynamic)? _verifyOnFail;
 
   static Future<String> get sdkVersion async {
     final String sdkVersion =
@@ -38,10 +38,10 @@ class TencentCaptcha {
   }
 
   static Future<bool> verify({
-    TencentCaptchaConfig config,
-    Function(dynamic data) onLoaded,
-    Function(dynamic data) onSuccess,
-    Function(dynamic data) onFail,
+    TencentCaptchaConfig? config,
+    Function(dynamic data)? onLoaded,
+    Function(dynamic data)? onSuccess,
+    Function(dynamic data)? onFail,
   }) async {
     _verifyOnLoaded = onLoaded;
     _verifyOnSuccess = onSuccess;
@@ -51,12 +51,12 @@ class TencentCaptcha {
       config = new TencentCaptchaConfig();
     }
 
-    if (config?.appId == null) {
+    if (config.appId == null) {
       config.appId = sdkAppId;
     }
 
     return await _methodChannel.invokeMethod('verify', {
-      'config': json.encode(config?.toJson()),
+      'config': json.encode(config.toJson()),
     });
   }
 
@@ -66,13 +66,13 @@ class TencentCaptcha {
 
     switch (method) {
       case 'onLoaded':
-        if (_verifyOnLoaded != null) _verifyOnLoaded(data);
+        if (_verifyOnLoaded != null) _verifyOnLoaded!(data);
         break;
       case 'onSuccess':
-        if (_verifyOnSuccess != null) _verifyOnSuccess(data);
+        if (_verifyOnSuccess != null) _verifyOnSuccess!(data);
         break;
       case 'onFail':
-        if (_verifyOnFail != null) _verifyOnFail(data);
+        if (_verifyOnFail != null) _verifyOnFail!(data);
         break;
     }
   }
