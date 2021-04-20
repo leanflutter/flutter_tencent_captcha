@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "dev.learn_flutter.plugins.flutter_tencent_captcha_example"
+        applicationId "org.leanflutter.plugins.flutter_tencent_captcha_example"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

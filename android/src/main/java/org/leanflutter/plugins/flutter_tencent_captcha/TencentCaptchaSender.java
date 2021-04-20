@@ -1,4 +1,4 @@
-package dev.learn_flutter.plugins.flutter_tencent_captcha;
+package org.leanflutter.plugins.flutter_tencent_captcha;
 
 public class TencentCaptchaSender {
     private static TencentCaptchaSender instance = new TencentCaptchaSender();

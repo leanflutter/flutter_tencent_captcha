@@ -1,4 +1,4 @@
-package dev.learn_flutter.plugins.flutter_tencent_captcha;
+package org.leanflutter.plugins.flutter_tencent_captcha;
 
 import android.app.Activity;
 import android.app.ActivityOptions;

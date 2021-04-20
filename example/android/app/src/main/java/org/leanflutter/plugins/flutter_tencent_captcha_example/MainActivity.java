@@ -1,4 +1,4 @@
-package dev.learn_flutter.plugins.flutter_tencent_captcha_example;
+package org.leanflutter.plugins.flutter_tencent_captcha_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 

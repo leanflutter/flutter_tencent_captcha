@@ -2,7 +2,7 @@ name: flutter_tencent_captcha
 description: 适用于 Flutter 的腾讯云验证码插件
 version: 0.0.1
 author: LiJianying <lijy91@foxmail.com>
-homepage: https://github.com/learn-flutter-dev/flutter_tencent_captcha
+homepage: https://github.com/leanflutter/flutter_tencent_captcha
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: dev.learn_flutter.plugins.flutter_tencent_captcha
+        package: org.leanflutter.plugins.flutter_tencent_captcha
         pluginClass: FlutterTencentCaptchaPlugin
       ios:
         pluginClass: FlutterTencentCaptchaPlugin
