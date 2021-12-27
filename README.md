@@ -62,7 +62,7 @@ TencentCaptcha.init('<appId>');
 
 #### 开始验证
 
-> 详细参数请参见：https://help.tencent.com/document_detail/121898.html
+> 详细参数请参见：https://cloud.tencent.com/document/product/1110/36841
 
 ```dart
 TencentCaptchaConfig config = TencentCaptchaConfig(
