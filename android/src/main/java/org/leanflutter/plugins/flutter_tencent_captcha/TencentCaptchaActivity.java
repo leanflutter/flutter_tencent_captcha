@@ -99,7 +99,7 @@ public class TencentCaptchaActivity extends Activity implements DialogInterface.
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
+            handler.cancel();
         }
     };
 
