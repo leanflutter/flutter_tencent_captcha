@@ -12,17 +12,19 @@ void main() {
   // 请勿将此 appId 用于非测试场景
   TencentCaptcha.init('2043551098');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   String _sdkVersion = 'Unknown';
-  List<String> _logs = [];
+  final List<String> _logs = [];
 
   @override
   void initState() {
@@ -84,7 +86,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,12 +96,12 @@ class _MyAppState extends State<MyApp> {
                 child: Column(
                   children: <Widget>[
                     Text('SDKVersion: $_sdkVersion'),
-                    SizedBox(height: 10),
-                    RaisedButton(
-                      child: Text('验证'),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      child: const Text('验证'),
                       onPressed: () => _handleClickVerify(),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

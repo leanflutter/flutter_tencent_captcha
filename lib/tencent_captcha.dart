@@ -9,9 +9,8 @@ const _kEventChannelName = 'flutter_tencent_captcha/event_channel';
 
 class TencentCaptcha {
   static const MethodChannel _methodChannel =
-      const MethodChannel(_kMethodChannelName);
-  static const EventChannel _eventChannel =
-      const EventChannel(_kEventChannelName);
+      MethodChannel(_kMethodChannelName);
+  static const EventChannel _eventChannel = EventChannel(_kEventChannelName);
 
   static bool _eventChannelReadied = false;
 
@@ -47,13 +46,8 @@ class TencentCaptcha {
     _verifyOnSuccess = onSuccess;
     _verifyOnFail = onFail;
 
-    if (config == null) {
-      config = new TencentCaptchaConfig();
-    }
-
-    if (config.appId == null) {
-      config.appId = sdkAppId;
-    }
+    config ??= TencentCaptchaConfig();
+    config.appId ??= sdkAppId;
 
     return await _methodChannel.invokeMethod('verify', {
       'config': json.encode(config.toJson()),
