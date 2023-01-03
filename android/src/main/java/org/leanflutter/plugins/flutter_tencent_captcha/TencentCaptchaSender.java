@@ -14,14 +14,17 @@ public class TencentCaptchaSender {
     }
 
     void onLoaded(String data) {
+        if (this.listener == null) return;
         this.listener.onLoaded(data);
     }
 
     void onSuccess(String data) {
+        if (this.listener == null) return;
         this.listener.onSuccess(data);
     }
 
     void onFail(String data) {
+        if (this.listener == null) return;
         this.listener.onFail(data);
     }
 }
