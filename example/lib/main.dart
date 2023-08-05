@@ -9,8 +9,8 @@ import 'package:flutter_tencent_captcha/flutter_tencent_captcha.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 请勿将此 appId 用于非测试场景
-  TencentCaptcha.init('2043551098');
+  // 请填写你自己的 AppId
+  TencentCaptcha.init('<your appid>');
 
   runApp(const MyApp());
 }

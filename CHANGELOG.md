@@ -1,3 +1,7 @@
+## 0.1.2
+
+* 更新js验证码地址 #9
+
 ## 0.1.1
 
 * fix: TencentCaptchaListener NullPointerException #7

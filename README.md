@@ -10,7 +10,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [屏幕截图](#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE)
 - [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
   - [安装](#%E5%AE%89%E8%A3%85)
@@ -37,7 +36,7 @@
 
 ```yaml
 dependencies:
-  flutter_tencent_captcha: ^0.1.1
+  flutter_tencent_captcha: ^0.1.2
 ```
 
 您可以从命令行安装软件包：

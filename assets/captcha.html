@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -17,8 +17,6 @@
         padding: 0;
       }
     </style>
-<!--     <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script> -->
-<!--     更换地址 -->
     <script src="https://turing.captcha.qcloud.com/TCaptcha.js"></script>
   </head>
   <body>
@@ -55,7 +53,7 @@
               bridgeOnFail(res);
             }
           },
-          config
+          config,
         );
         txCaptcha.show();
       };
